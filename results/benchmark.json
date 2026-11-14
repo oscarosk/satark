@@ -1,0 +1,810 @@
+{
+  "generatedAt": "2026-11-12T11:06:52.817Z",
+  "thresholds": {
+    "satark": {
+      "threshold": 0.44,
+      "modelWeight": 0.5
+    },
+    "rules_seq": {
+      "threshold": 0.35
+    },
+    "model_seq": {
+      "threshold": 0.7
+    },
+    "line_only": {
+      "threshold": 0.9
+    }
+  },
+  "suites": {
+    "heldout": {
+      "name": "Held-out generated calls (unseen phrasings)",
+      "systems": {
+        "satark": {
+          "name": "Satark (rules + classifier + script tracking)",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.9875,
+          "caughtAtAll": 1,
+          "falseAlarmRate": 0,
+          "medianLeadSeconds": 14.139130434782611,
+          "ci": {
+            "warnedBeforePayment": [
+              0.9625,
+              1
+            ],
+            "caughtAtAll": [
+              1,
+              1
+            ],
+            "falseAlarmRate": [
+              0,
+              0
+            ],
+            "medianLeadSeconds": [
+              13.200000000000006,
+              16.243478260869566
+            ]
+          }
+        },
+        "rules_seq": {
+          "name": "Rules + script tracking (no classifier)",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.95,
+          "caughtAtAll": 1,
+          "falseAlarmRate": 0,
+          "medianLeadSeconds": 11.095652173913045,
+          "ci": {
+            "warnedBeforePayment": [
+              0.9,
+              0.9875
+            ],
+            "caughtAtAll": [
+              1,
+              1
+            ],
+            "falseAlarmRate": [
+              0,
+              0
+            ],
+            "medianLeadSeconds": [
+              8.121739130434783,
+              12.834782608695654
+            ]
+          }
+        },
+        "model_seq": {
+          "name": "Classifier + script tracking (no rules)",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.5375,
+          "caughtAtAll": 0.9125,
+          "falseAlarmRate": 0,
+          "medianLeadSeconds": 5.513043478260869,
+          "ci": {
+            "warnedBeforePayment": [
+              0.425,
+              0.65
+            ],
+            "caughtAtAll": [
+              0.85,
+              0.9625
+            ],
+            "falseAlarmRate": [
+              0,
+              0
+            ],
+            "medianLeadSeconds": [
+              2.1043478260869577,
+              10.295652173913048
+            ]
+          }
+        },
+        "line_only": {
+          "name": "Line-by-line classifier (no script tracking)",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.9125,
+          "caughtAtAll": 0.9625,
+          "falseAlarmRate": 0.125,
+          "medianLeadSeconds": 20.452173913043485,
+          "ci": {
+            "warnedBeforePayment": [
+              0.85,
+              0.975
+            ],
+            "caughtAtAll": [
+              0.9125,
+              1
+            ],
+            "falseAlarmRate": [
+              0.05,
+              0.2
+            ],
+            "medianLeadSeconds": [
+              19.182608695652178,
+              21.79130434782609
+            ]
+          }
+        },
+        "keyword": {
+          "name": "Keyword filter",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.8625,
+          "caughtAtAll": 1,
+          "falseAlarmRate": 0.625,
+          "medianLeadSeconds": 19.217391304347828,
+          "ci": {
+            "warnedBeforePayment": [
+              0.7875,
+              0.9375
+            ],
+            "caughtAtAll": [
+              1,
+              1
+            ],
+            "falseAlarmRate": [
+              0.5125,
+              0.7375
+            ],
+            "medianLeadSeconds": [
+              17.11304347826087,
+              22.62608695652174
+            ]
+          }
+        }
+      }
+    },
+    "noisy": {
+      "name": "Held-out calls with simulated speech-recognition errors",
+      "systems": {
+        "satark": {
+          "name": "Satark (rules + classifier + script tracking)",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.925,
+          "caughtAtAll": 1,
+          "falseAlarmRate": 0.0125,
+          "medianLeadSeconds": 12.800000000000002,
+          "ci": {
+            "warnedBeforePayment": [
+              0.8625,
+              0.975
+            ],
+            "caughtAtAll": [
+              1,
+              1
+            ],
+            "falseAlarmRate": [
+              0,
+              0.0375
+            ],
+            "medianLeadSeconds": [
+              11.96521739130435,
+              14.139130434782608
+            ]
+          }
+        },
+        "rules_seq": {
+          "name": "Rules + script tracking (no classifier)",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.75,
+          "caughtAtAll": 0.975,
+          "falseAlarmRate": 0.0125,
+          "medianLeadSeconds": 5.947826086956519,
+          "ci": {
+            "warnedBeforePayment": [
+              0.65,
+              0.8375
+            ],
+            "caughtAtAll": [
+              0.9375,
+              1
+            ],
+            "falseAlarmRate": [
+              0,
+              0.0375
+            ],
+            "medianLeadSeconds": [
+              4.643478260869564,
+              10.878260869565217
+            ]
+          }
+        },
+        "model_seq": {
+          "name": "Classifier + script tracking (no rules)",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.5,
+          "caughtAtAll": 0.875,
+          "falseAlarmRate": 0,
+          "medianLeadSeconds": 9.826086956521742,
+          "ci": {
+            "warnedBeforePayment": [
+              0.3875,
+              0.6125
+            ],
+            "caughtAtAll": [
+              0.8,
+              0.9375
+            ],
+            "falseAlarmRate": [
+              0,
+              0
+            ],
+            "medianLeadSeconds": [
+              4.678260869565218,
+              12.834782608695654
+            ]
+          }
+        },
+        "line_only": {
+          "name": "Line-by-line classifier (no script tracking)",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.8625,
+          "caughtAtAll": 0.9375,
+          "falseAlarmRate": 0.0875,
+          "medianLeadSeconds": 20.08695652173913,
+          "ci": {
+            "warnedBeforePayment": [
+              0.7875,
+              0.9375
+            ],
+            "caughtAtAll": [
+              0.875,
+              0.9875
+            ],
+            "falseAlarmRate": [
+              0.0375,
+              0.1625
+            ],
+            "medianLeadSeconds": [
+              18.78260869565218,
+              21.39130434782609
+            ]
+          }
+        },
+        "keyword": {
+          "name": "Keyword filter",
+          "scams": 80,
+          "genuine": 80,
+          "warnedBeforePayment": 0.8125,
+          "caughtAtAll": 0.9625,
+          "falseAlarmRate": 0.55,
+          "medianLeadSeconds": 16.67826086956522,
+          "ci": {
+            "warnedBeforePayment": [
+              0.725,
+              0.8875
+            ],
+            "caughtAtAll": [
+              0.9125,
+              1
+            ],
+            "falseAlarmRate": [
+              0.4375,
+              0.6625
+            ],
+            "medianLeadSeconds": [
+              14.139130434782611,
+              19.65217391304348
+            ]
+          }
+        }
+      }
+    },
+    "handwritten": {
+      "name": "Hand-written hard calls (new wording, new scam types)",
+      "systems": {
+        "satark": {
+          "name": "Satark (rules + classifier + script tracking)",
+          "scams": 6,
+          "genuine": 6,
+          "warnedBeforePayment": 0.6666666666666666,
+          "caughtAtAll": 0.6666666666666666,
+          "falseAlarmRate": 0,
+          "medianLeadSeconds": 1.0521739130434788,
+          "ci": {
+            "warnedBeforePayment": [
+              0.3333333333333333,
+              1
+            ],
+            "caughtAtAll": [
+              0.3333333333333333,
+              1
+            ],
+            "falseAlarmRate": [
+              0,
+              0
+            ],
+            "medianLeadSeconds": [
+              0,
+              8.556521739130435
+            ]
+          },
+          "perCall": [
+            {
+              "id": "adv-scam-income-tax",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 0
+            },
+            {
+              "id": "adv-scam-electricity",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-kyc",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-euphemism",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 0
+            },
+            {
+              "id": "adv-scam-hindi-formal",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 8.556521739130435
+            },
+            {
+              "id": "adv-scam-courier-handoff",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 2.1043478260869577
+            },
+            {
+              "id": "adv-genuine-loan-recovery",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lost-phone",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lawyer",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-son-warning",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-hr",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-bank-welcome",
+              "label": "genuine",
+              "falseAlarm": false
+            }
+          ]
+        },
+        "rules_seq": {
+          "name": "Rules + script tracking (no classifier)",
+          "scams": 6,
+          "genuine": 6,
+          "warnedBeforePayment": 0.6666666666666666,
+          "caughtAtAll": 0.8333333333333334,
+          "falseAlarmRate": 0,
+          "medianLeadSeconds": 1.0521739130434788,
+          "ci": {
+            "warnedBeforePayment": [
+              0.3333333333333333,
+              1
+            ],
+            "caughtAtAll": [
+              0.5,
+              1
+            ],
+            "falseAlarmRate": [
+              0,
+              0
+            ],
+            "medianLeadSeconds": [
+              0,
+              8.556521739130435
+            ]
+          },
+          "perCall": [
+            {
+              "id": "adv-scam-income-tax",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 0
+            },
+            {
+              "id": "adv-scam-electricity",
+              "label": "scam",
+              "caught": true,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-kyc",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-euphemism",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 0
+            },
+            {
+              "id": "adv-scam-hindi-formal",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 8.556521739130435
+            },
+            {
+              "id": "adv-scam-courier-handoff",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 2.1043478260869577
+            },
+            {
+              "id": "adv-genuine-loan-recovery",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lost-phone",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lawyer",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-son-warning",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-hr",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-bank-welcome",
+              "label": "genuine",
+              "falseAlarm": false
+            }
+          ]
+        },
+        "model_seq": {
+          "name": "Classifier + script tracking (no rules)",
+          "scams": 6,
+          "genuine": 6,
+          "warnedBeforePayment": 0.16666666666666666,
+          "caughtAtAll": 0.16666666666666666,
+          "falseAlarmRate": 0,
+          "medianLeadSeconds": 8.556521739130435,
+          "ci": {
+            "warnedBeforePayment": [
+              0,
+              0.5
+            ],
+            "caughtAtAll": [
+              0,
+              0.5
+            ],
+            "falseAlarmRate": [
+              0,
+              0
+            ],
+            "medianLeadSeconds": [
+              8.556521739130435,
+              8.556521739130435
+            ]
+          },
+          "perCall": [
+            {
+              "id": "adv-scam-income-tax",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-electricity",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-kyc",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-euphemism",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-hindi-formal",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 8.556521739130435
+            },
+            {
+              "id": "adv-scam-courier-handoff",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-genuine-loan-recovery",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lost-phone",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lawyer",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-son-warning",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-hr",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-bank-welcome",
+              "label": "genuine",
+              "falseAlarm": false
+            }
+          ]
+        },
+        "line_only": {
+          "name": "Line-by-line classifier (no script tracking)",
+          "scams": 6,
+          "genuine": 6,
+          "warnedBeforePayment": 0.5,
+          "caughtAtAll": 0.6666666666666666,
+          "falseAlarmRate": 0.16666666666666666,
+          "medianLeadSeconds": 13.269565217391305,
+          "ci": {
+            "warnedBeforePayment": [
+              0.16666666666666666,
+              0.8333333333333334
+            ],
+            "caughtAtAll": [
+              0.3333333333333333,
+              1
+            ],
+            "falseAlarmRate": [
+              0,
+              0.5
+            ],
+            "medianLeadSeconds": [
+              0,
+              15.443478260869567
+            ]
+          },
+          "perCall": [
+            {
+              "id": "adv-scam-income-tax",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 0
+            },
+            {
+              "id": "adv-scam-electricity",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-kyc",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-euphemism",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 15.443478260869567
+            },
+            {
+              "id": "adv-scam-hindi-formal",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 13.269565217391305
+            },
+            {
+              "id": "adv-scam-courier-handoff",
+              "label": "scam",
+              "caught": true,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-genuine-loan-recovery",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lost-phone",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lawyer",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-son-warning",
+              "label": "genuine",
+              "falseAlarm": true
+            },
+            {
+              "id": "adv-genuine-hr",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-bank-welcome",
+              "label": "genuine",
+              "falseAlarm": false
+            }
+          ]
+        },
+        "keyword": {
+          "name": "Keyword filter",
+          "scams": 6,
+          "genuine": 6,
+          "warnedBeforePayment": 0.3333333333333333,
+          "caughtAtAll": 0.6666666666666666,
+          "falseAlarmRate": 0.5,
+          "medianLeadSeconds": 11.56521739130435,
+          "ci": {
+            "warnedBeforePayment": [
+              0,
+              0.6666666666666666
+            ],
+            "caughtAtAll": [
+              0.3333333333333333,
+              1
+            ],
+            "falseAlarmRate": [
+              0.16666666666666666,
+              0.8333333333333334
+            ],
+            "medianLeadSeconds": [
+              9.426086956521742,
+              13.704347826086957
+            ]
+          },
+          "perCall": [
+            {
+              "id": "adv-scam-income-tax",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-electricity",
+              "label": "scam",
+              "caught": false,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-kyc",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 9.426086956521742
+            },
+            {
+              "id": "adv-scam-euphemism",
+              "label": "scam",
+              "caught": true,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-hindi-formal",
+              "label": "scam",
+              "caught": true,
+              "early": false,
+              "lead": null
+            },
+            {
+              "id": "adv-scam-courier-handoff",
+              "label": "scam",
+              "caught": true,
+              "early": true,
+              "lead": 13.704347826086957
+            },
+            {
+              "id": "adv-genuine-loan-recovery",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lost-phone",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-lawyer",
+              "label": "genuine",
+              "falseAlarm": false
+            },
+            {
+              "id": "adv-genuine-son-warning",
+              "label": "genuine",
+              "falseAlarm": true
+            },
+            {
+              "id": "adv-genuine-hr",
+              "label": "genuine",
+              "falseAlarm": true
+            },
+            {
+              "id": "adv-genuine-bank-welcome",
+              "label": "genuine",
+              "falseAlarm": true
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "satark": {
+    "threshold": 0.44,
+    "modelWeight": 0.5
+  },
+  "rules_seq": {
+    "threshold": 0.35
+  },
+  "model_seq": {
+    "threshold": 0.7
+  },
+  "line_only": {
+    "threshold": 0.9
+  }
+}

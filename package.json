@@ -1,0 +1,21 @@
+{
+  "name": "satark",
+  "version": "1.0.0",
+  "description": "Catches a digital-arrest scam call before the money is asked for. On-device, Hindi, Hinglish and English.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "generate": "node scripts/generate.js",
+    "train": "node scripts/train.js",
+    "bench": "node scripts/benchmark.js",
+    "build": "node scripts/build-web.js",
+    "test": "node --test tests/*.test.js",
+    "all": "npm run generate && npm run train && npm run bench && npm run build && npm test"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2"
+  }
+}

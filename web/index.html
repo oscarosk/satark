@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Satark | Scam call guard</title>
+<meta name="description" content="Satark listens to a suspicious call and warns you before a digital-arrest scammer asks for money. Works in Hindi, Hinglish and English, on your device.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1e3a;
+  --ink-2: #262b4f;
+  --ink-line: #363c66;
+  --paper: #f4f6fa;
+  --surface: #ffffff;
+  --text: #1a1e3a;
+  --muted: #5b6080;
+  --rule: #dde1ec;
+  --safe: #1e7f55;
+  --safe-soft: #e3f3ea;
+  --watch: #b97a06;
+  --watch-soft: #fbf0d8;
+  --alert: #c42d25;
+  --alert-soft: #fbe3e1;
+  --alert-strong: #c42d25;
+  --on-ink: #eef0fb;
+  --on-ink-muted: #a6abd0;
+  --focus: #3d5afe;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11142a; --surface: #1a1e3a; --text: #eef0fb; --muted: #a6abd0; --rule: #2d3260;
+    --ink: #0b0e22; --ink-2: #161a38; --ink-line: #2d3260;
+    --safe-soft: #12392a; --watch-soft: #3c2e0c; --alert-soft: #45181a;
+    --safe: #4cc38a; --watch: #e5ab3a; --alert: #ff6b61; --alert-strong: #b3261e; --focus: #8ea2ff;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11142a; --surface: #1a1e3a; --text: #eef0fb; --muted: #a6abd0; --rule: #2d3260;
+  --ink: #0b0e22; --ink-2: #161a38; --ink-line: #2d3260;
+  --safe-soft: #12392a; --watch-soft: #3c2e0c; --alert-soft: #45181a;
+  --safe: #4cc38a; --watch: #e5ab3a; --alert: #ff6b61; --alert-strong: #b3261e; --focus: #8ea2ff;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--text);
+  font: 400 17px/1.55 "Mukta", system-ui, sans-serif;
+}
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+a { color: inherit; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+header.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0 8px; }
+.mark { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 22px; letter-spacing: -0.01em; text-decoration: none; }
+.mark svg { width: 30px; height: 30px; }
+.device { font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.device svg { width: 16px; height: 16px; }
+
+.intro { padding: 20px 0 8px; max-width: 800px; }
+h1 { font-size: clamp(30px, 4.6vw, 48px); line-height: 1.08; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 14px; }
+.intro p { margin: 0; color: var(--muted); font-size: 19px; max-width: 62ch; }
+
+/* Controls */
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 18px 0 16px; }
+.samples { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 1.5px solid var(--rule); background: var(--surface); color: var(--text);
+  font: 500 15px/1 "Mukta", sans-serif; padding: 9px 13px 8px; border-radius: 999px; cursor: pointer;
+}
+.chip[aria-pressed="true"] { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+.chip .kind { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; background: var(--alert); }
+.chip .kind.genuine { background: var(--safe); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-left: auto; }
+.btn {
+  font: 600 16px/1 "Mukta", sans-serif; padding: 12px 18px 11px; border-radius: 10px; cursor: pointer;
+  border: 1.5px solid var(--text); background: var(--text); color: var(--paper);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn.ghost { background: transparent; color: var(--text); }
+.btn svg { width: 16px; height: 16px; }
+.btn[disabled] { opacity: .5; cursor: default; }
+
+/* Stage: call panel + tracker */
+.stage { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.call {
+  background: var(--ink); color: var(--on-ink); border-radius: 28px; padding: 20px 20px 16px;
+  min-height: 520px; display: flex; flex-direction: column;
+}
+.call-head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--ink-line); }
+.avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--ink-2); display: grid; place-items: center; }
+.avatar svg { width: 22px; height: 22px; color: var(--on-ink-muted); }
+.who { font-weight: 600; font-size: 17px; line-height: 1.2; }
+.sub { font-size: 14px; color: var(--on-ink-muted); }
+.timer { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--on-ink-muted); font-size: 15px; }
+.lines { flex: 1; overflow-y: auto; padding: 14px 2px 6px; display: flex; flex-direction: column; gap: 10px; max-height: 470px; scroll-behavior: smooth; }
+.empty { margin: auto; text-align: center; color: var(--on-ink-muted); max-width: 30ch; font-size: 16px; }
+.line { max-width: 88%; padding: 9px 13px 8px; border-radius: 16px; font-size: 16.5px; line-height: 1.45; }
+.line.c { background: var(--ink-2); border-top-left-radius: 4px; align-self: flex-start; }
+.line.u { background: #3b4278; border-top-right-radius: 4px; align-self: flex-end; }
+.line .tag { display: block; font-size: 13px; color: var(--on-ink-muted); margin-bottom: 2px; }
+.line .tag b { font-weight: 600; }
+.line .tag.authority b, .line .tag.fear b, .line .tag.isolation b, .line .tag.payment b { color: #ffc4bf; }
+mark { background: rgba(255, 107, 97, .28); color: inherit; border-radius: 4px; padding: 0 2px; }
+.compose { display: flex; gap: 8px; padding-top: 12px; border-top: 1px solid var(--ink-line); }
+.compose input {
+  flex: 1; min-width: 0; font: 400 16px "Mukta", sans-serif; color: var(--on-ink); background: var(--ink-2);
+  border: 1px solid var(--ink-line); border-radius: 10px; padding: 10px 12px 9px;
+}
+.compose input::placeholder { color: var(--on-ink-muted); }
+.compose button { font: 600 15px "Mukta", sans-serif; border-radius: 10px; border: 0; padding: 0 14px; background: var(--on-ink); color: var(--ink); cursor: pointer; }
+.mic-note { font-size: 13px; color: var(--on-ink-muted); padding-top: 8px; min-height: 1.2em; }
+
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; padding: 20px; }
+.panel h2 { font-size: 18px; margin: 0 0 4px; font-weight: 600; }
+.panel .hint { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+ol.script { list-style: none; margin: 0 0 18px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+ol.script li { padding: 10px 10px 9px; border-radius: 10px; border: 1px solid var(--rule); transition: background .25s, border-color .25s; display: flex; flex-direction: column; gap: 6px; }
+ol.script .top { display: flex; align-items: center; justify-content: space-between; }
+ol.script .num { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; font-size: 13px; border: 1.5px solid var(--rule); color: var(--muted); }
+ol.script .name { font-weight: 600; line-height: 1.15; font-size: 15.5px; }
+ol.script .name span { display: block; font-weight: 400; color: var(--muted); font-size: 14px; }
+ol.script .pct { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); }
+ol.script li.hit { background: var(--alert-soft); border-color: transparent; }
+ol.script li.hit .num { background: var(--alert); border-color: var(--alert); color: #fff; }
+ol.script li.hit .pct { color: var(--alert); font-weight: 600; }
+
+.meter { margin: 0 0 6px; }
+.meter-bar { position: relative; height: 12px; border-radius: 6px; background: linear-gradient(90deg, var(--safe-soft) 0 33.3%, var(--watch-soft) 33.3% 66.6%, var(--alert-soft) 66.6% 100%); overflow: hidden; }
+.meter-fill { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 6px; background: var(--safe); transition: width .4s ease, background .4s; }
+.meter-scale { display: grid; grid-template-columns: repeat(3, 1fr); font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+.verdict { margin-top: 12px; border-radius: 14px; padding: 16px 18px; background: var(--safe-soft); transition: background .3s; }
+.verdict .v-title { font-size: 22px; font-weight: 800; line-height: 1.15; margin: 0 0 4px; color: var(--safe); }
+.verdict p { margin: 0; font-size: 15.5px; }
+.verdict.watch { background: var(--watch-soft); }
+.verdict.watch .v-title { color: var(--watch); }
+.verdict.alert { background: var(--alert-strong); color: #fff; }
+.verdict.alert .v-title { color: #fff; font-size: 30px; }
+.verdict .v-actions { display: none; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.verdict.alert .v-actions { display: flex; }
+.verdict .v-actions a { background: #fff; color: var(--alert-strong); text-decoration: none; font-weight: 600; padding: 9px 13px 8px; border-radius: 9px; font-size: 15px; }
+.verdict .v-actions a.secondary { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px #fff; }
+.lead-note { font-size: 14px; color: var(--muted); margin-top: 10px; min-height: 1.3em; }
+
+/* Sections */
+section.block { padding: 64px 0 8px; }
+section.block h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -0.015em; margin: 0 0 8px; line-height: 1.15; }
+section.block > .wrap > p.lede { color: var(--muted); max-width: 64ch; margin: 0 0 24px; font-size: 18px; }
+
+.help { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.help h3 { font-size: 19px; margin: 0 0 8px; }
+.help ol { margin: 0; padding-left: 22px; }
+.help li { margin-bottom: 8px; }
+.help li b { font-weight: 600; }
+
+.findings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 2px solid var(--text); margin-bottom: 28px; }
+.finding { padding: 16px 22px 18px 0; }
+.finding + .finding { padding-left: 22px; border-left: 1px solid var(--rule); }
+.finding .big { font-size: 40px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.finding p { margin: 8px 0 0; color: var(--muted); font-size: 15.5px; }
+.tablewrap { overflow-x: auto; }
+table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 15.5px; font-variant-numeric: tabular-nums; }
+caption { text-align: left; font-weight: 600; font-size: 17px; padding: 18px 0 8px; }
+th, td { text-align: left; padding: 9px 12px 8px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 14px; }
+td.num { white-space: nowrap; }
+td .ci { display: block; color: var(--muted); font-size: 13px; }
+tr.ours td { font-weight: 600; }
+.note { color: var(--muted); font-size: 15px; max-width: 72ch; }
+
+ol.how { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; counter-reset: how; }
+ol.how li { counter-increment: how; border-top: 2px solid var(--text); padding-top: 12px; }
+ol.how li::before { content: counter(how); font-weight: 800; font-size: 28px; line-height: 1; display: block; margin-bottom: 8px; }
+ol.how h3 { margin: 0 0 6px; font-size: 19px; }
+ol.how p { margin: 0; color: var(--muted); font-size: 16px; }
+
+footer { padding: 56px 0 40px; color: var(--muted); font-size: 15px; }
+footer p { max-width: 72ch; }
+
+@media (max-width: 860px) {
+  .stage, .help { grid-template-columns: 1fr; }
+  .findings, ol.how { grid-template-columns: 1fr; }
+  .finding + .finding { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
+  .actions { margin-left: 0; }
+  .call { min-height: 420px; }
+}
+@media (max-width: 480px) {
+  ol.script { grid-template-columns: repeat(2, 1fr); }
+  .wrap { padding: 0 16px; }
+  .verdict.alert .v-title { font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="#" aria-label="Satark home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 4 7v8c0 7.4 5.1 13.6 12 15 6.9-1.4 12-7.6 12-15V7L16 2Z" fill="currentColor"/><path d="m10.5 16.2 3.6 3.6 7.4-7.6" fill="none" stroke="var(--paper)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Satark
+    </a>
+    <span class="device"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10 18h4"/></svg>Detection runs on your device</span>
+  </header>
+
+  <div class="intro">
+    <h1>Catches a digital-arrest scam call before the money is asked for.</h1>
+    <p>Fake CBI, police and customs callers follow one script: claim authority, threaten you, cut you off from family, then ask for money. Satark follows the call line by line in Hindi, Hinglish or English and tells you to hang up as soon as it recognises that script.</p>
+  </div>
+
+  <div class="controls">
+    <div class="samples" role="group" aria-label="Sample calls" id="samples"></div>
+    <div class="actions">
+      <button class="btn" id="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span>Play this call</span></button>
+      <button class="btn ghost" id="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg><span>Use microphone</span></button>
+      <label class="btn ghost" style="cursor:pointer"><input type="checkbox" id="voice" style="margin:0"> Read aloud</label>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="call" aria-label="Call transcript">
+      <div class="call-head">
+        <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></div>
+        <div><div class="who" id="who">Unknown caller</div><div class="sub" id="callsub">Pick a sample call and press play</div></div>
+        <div class="timer" id="timer">0:00</div>
+      </div>
+      <div class="lines" id="lines" aria-live="polite">
+        <p class="empty" id="empty">The transcript appears here as the call goes on. You can also type what a caller says below.</p>
+      </div>
+      <form class="compose" id="compose" autocomplete="off">
+        <label for="say" class="sr" style="position:absolute;left:-9999px">What the caller says</label>
+        <input id="say" placeholder="Type what the caller says, in any language">
+        <button type="submit">Add</button>
+      </form>
+      <div class="mic-note" id="micnote"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Where the call is in the scam script</h2>
+      <p class="hint">A scam needs at least two of these. One alone, like a delivery person asking for an OTP, stays safe.</p>
+      <ol class="script" id="script"></ol>
+      <div class="meter" aria-hidden="true">
+        <div class="meter-bar"><div class="meter-fill" id="fill"></div></div>
+        <div class="meter-scale"><span>Safe</span><span>Suspicious</span><span>Hang up</span></div>
+      </div>
+      <div class="verdict" id="verdict" role="status" aria-live="assertive">
+        <p class="v-title" id="vtitle">Listening</p>
+        <p id="vtext">Nothing suspicious yet.</p>
+        <div class="v-actions">
+          <a href="tel:1930">Call 1930 for help</a>
+          <a class="secondary" href="https://cybercrime.gov.in" target="_blank" rel="noopener">Report at cybercrime.gov.in</a>
+          <a class="secondary" id="family" href="#" target="_blank" rel="noopener">Tell a family member</a>
+        </div>
+      </div>
+      <div class="lead-note" id="leadnote"></div>
+    </div>
+  </div>
+</div>
+
+<section class="block" id="help">
+  <div class="wrap">
+    <h2>If you get a call like this</h2>
+    <p class="lede">No police officer, CBI, customs or court arrests anyone over a phone or video call, and no agency asks you to move money to "verify" it.</p>
+    <div class="help">
+      <div>
+        <h3>During the call</h3>
+        <ol>
+          <li><b>Hang up.</b> You do not need permission to end the call.</li>
+          <li><b>Tell someone you trust.</b> Scammers rely on you staying alone and scared.</li>
+          <li><b>Report the number</b> on Chakshu at sancharsaathi.gov.in, even if you paid nothing.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>If you already sent money</h3>
+        <ol>
+          <li><b>Call 1930 straight away.</b> Reporting within the first hour gives the best chance of the money being frozen.</li>
+          <li><b>Call your bank</b> and ask them to block the transaction and your cards.</li>
+          <li><b>Write down the transaction IDs</b> and keep screenshots of the call log and messages.</li>
+          <li><b>File a complaint</b> at cybercrime.gov.in with those details.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="results">
+  <div class="wrap">
+    <h2>How well it works</h2>
+    <p class="lede" id="resultsLede"></p>
+    <div class="findings" id="findings"></div>
+    <div class="tablewrap" id="tables"></div>
+    <p class="note" id="limits"></p>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="lede">Every line of the call goes through three steps, all inside your browser. Nothing you hear is sent to an AI server.</p>
+    <ol class="how">
+      <li><h3>Read each line</h3><p>Pattern rules written for Hindi, Hinglish and English spot phrases like "arrest warrant" or "safe account". A trained classifier reads character patterns, so misspellings and speech-recognition slips still count.</p></li>
+      <li><h3>Follow the script</h3><p>Satark keeps track of which scam stages the call has reached and in what order. Authority and fear followed by secrecy or money is the digital-arrest pattern.</p></li>
+      <li><h3>Warn early</h3><p>As soon as two stages line up, Satark tells you to hang up, usually before the money is mentioned. Genuine callers who say "we never ask for your OTP" lower the risk.</p></li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Satark is a prototype built for INNOVEX 2026, problem statement PS05, AI-powered cybersecurity. Sample calls are written for this demo; names and numbers in them are made up. In microphone mode your browser's speech recognition turns audio into text, which in Chrome may use Google's servers. The scam detection itself always runs on your device.</p>
+  </div>
+</footer>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>
