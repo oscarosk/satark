@@ -3,7 +3,8 @@
 // ADVERSARIAL: written in different words from the phrase banks, including
 // scam types the generator does not produce (tax, electricity, KYC) and
 // genuine calls that sound threatening (loan recovery, police, HR).
-// SAMPLES: the calls played in the web demo.
+// SAMPLES: the calls played in the web demo. `voices` assigns each speaker a
+// voice for scripts/voices.js (male1 is the scam caller).
 //
 // Line format: [speaker, text, stage]. Speaker is "c" (caller) or "u" (user).
 // Stage is the scam stage the line belongs to, or null.
@@ -130,6 +131,7 @@ export const ADVERSARIAL = [
 export const SAMPLES = [
   {
     id: "sample-cbi", label: "scam",
+    voices: { c: "male1", u: "female1" },
     title: "Digital arrest: fake CBI officer",
     short: "Fake CBI officer",
     language: "Hinglish",
@@ -149,6 +151,7 @@ export const SAMPLES = [
   },
   {
     id: "sample-customs", label: "scam",
+    voices: { c: "male1", u: "male2" },
     title: "Parcel with drugs: fake customs officer",
     short: "Fake customs officer",
     language: "English",
@@ -165,6 +168,7 @@ export const SAMPLES = [
   },
   {
     id: "sample-trai", label: "scam",
+    voices: { c: "male1", u: "female1" },
     title: "SIM block: fake TRAI officer",
     short: "Fake TRAI officer",
     language: "Hindi",
@@ -180,6 +184,7 @@ export const SAMPLES = [
   },
   {
     id: "sample-bank", label: "genuine",
+    voices: { c: "female2", u: "male2" },
     title: "Genuine: bank fraud alert",
     short: "Real bank alert",
     language: "Hinglish",
@@ -194,15 +199,16 @@ export const SAMPLES = [
   },
   {
     id: "sample-delivery", label: "genuine",
+    voices: { c: "male2", u: "female1" },
     title: "Genuine: delivery asking for OTP",
     short: "Real delivery OTP",
     language: "Hinglish",
     lines: [
-      ["c", "Hello sir, delivery hai, aapka parcel lekar gate par khada hoon", null],
-      ["u", "Haan, aa raha hoon", null],
+      ["c", "Hello madam, delivery hai, aapka parcel lekar gate par khada hoon", null],
+      ["u", "Haan, aa rahi hoon", null],
       ["c", "Delivery confirm karne ke liye jo OTP aaya hai woh bata dijiye", null],
-      ["u", "Haan, ek minute, main neeche aa gaya", null],
-      ["c", "Thank you sir, aapka din shubh ho", null],
+      ["u", "Haan, ek minute, main neeche aa gayi", null],
+      ["c", "Thank you madam, aapka din shubh ho", null],
     ],
   },
 ];

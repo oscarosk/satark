@@ -12,6 +12,7 @@
     "train": "node scripts/train.js",
     "bench": "node scripts/benchmark.js",
     "build": "node scripts/build-web.js",
+    "voices": "node scripts/voices.js",
     "test": "node --test tests/*.test.js",
     "all": "npm run generate && npm run train && npm run bench && npm run build && npm test"
   },

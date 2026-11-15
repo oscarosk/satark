@@ -66,6 +66,7 @@ function render(entry) {
     $("vtitle").textContent = entry ? "Looks safe so far" : "Listening";
     $("vtext").textContent = entry ? "No scam pattern yet. Satark keeps watching until the call ends." : "Nothing suspicious yet.";
   }
+  renderPhoneBar(entry, status);
 }
 
 // Draws the meter as three equal zones, whatever the tuned thresholds are.
@@ -75,6 +76,22 @@ function meterPosition(risk) {
   if (risk < w) return (risk / w) / 3;
   if (risk < t) return 1 / 3 + ((risk - w) / (t - w)) / 3;
   return 2 / 3 + ((risk - t) / (1 - t)) / 3;
+}
+
+// On phones the verdict panel sits below the transcript, so a pinned bar mirrors it
+// and hides itself whenever the full verdict is on screen.
+let verdictVisible = false;
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(([e]) => {
+    verdictVisible = e.isIntersecting;
+    $("mstatus").classList.toggle("hidden", verdictVisible);
+  }).observe($("verdict"));
+}
+function renderPhoneBar(entry, status) {
+  const bar = $("mstatus");
+  bar.className = `mstatus ${entry ? "on" : ""} ${status === "safe" ? "" : status} ${verdictVisible ? "hidden" : ""}`;
+  $("mstext").textContent =
+    status === "alert" ? "Hang up now: scam pattern" : status === "watch" ? "Be careful" : entry ? "Looks safe so far" : "Listening";
 }
 
 const listJoin = (xs) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs.at(-1)}`);
@@ -183,31 +200,91 @@ function speak(text, speaker, signal) {
   });
 }
 
+// ---------- Recorded voices (generated once with scripts/voices.js) ----------
+let recordings = null; // { sampleId: ["sample-cbi/01.mp3", ...] }
+let currentAudio = null;
+let audioCtx = null;
+fetch("audio/manifest.json")
+  .then((r) => (r.ok ? r.json() : null))
+  .then((m) => {
+    if (!m || !Object.keys(m).length) return;
+    recordings = m;
+    $("voice").checked = true;
+    $("voicelabel").textContent = "Voices";
+    $("voicecredit").textContent = " Voices in the sample calls were generated with ElevenLabs.";
+  })
+  .catch(() => {});
+
+function playRecording(url, speaker, onDuration) {
+  return new Promise((resolve) => {
+    const a = new Audio(url);
+    currentAudio = a;
+    try {
+      audioCtx ||= new (window.AudioContext || window.webkitAudioContext)();
+      audioCtx.resume?.();
+      const src = audioCtx.createMediaElementSource(a);
+      if (speaker === "c") {
+        // The caller is at the far end of a phone line: keep only 300-3400 Hz, like a real call.
+        const hp = audioCtx.createBiquadFilter();
+        hp.type = "highpass";
+        hp.frequency.value = 300;
+        const lp = audioCtx.createBiquadFilter();
+        lp.type = "lowpass";
+        lp.frequency.value = 3400;
+        src.connect(hp).connect(lp).connect(audioCtx.destination);
+      } else src.connect(audioCtx.destination);
+    } catch {
+      // Without Web Audio the recording still plays, just unfiltered.
+    }
+    a.onloadedmetadata = () => onDuration(a.duration);
+    a.onended = () => resolve(true);
+    a.onerror = () => { onDuration(null); resolve(false); };
+    a.onpause = () => { if (!a.ended) resolve(false); };
+    a.play().catch(() => { onDuration(null); resolve(false); });
+  });
+}
+
 async function play() {
   stopAll();
   resetCall(`${current.language} sample, playing`);
   const signal = { cancelled: false, onCancel: null };
   playing = { cancel() { signal.cancelled = true; signal.onCancel?.(); } };
   setPlayButton(true);
+  // On phones the call panel starts below the fold: bring it into view.
+  if (matchMedia("(max-width: 860px)").matches) {
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelector(".call").scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+  }
   const voice = $("voice").checked;
-  for (const [speaker, text, stage] of current.lines) {
+  const recorded = voice && recordings?.[current.id];
+  // Warm the browser cache so there is no gap between lines.
+  if (recorded) for (const f of recorded) { const a = new Audio(); a.preload = "auto"; a.src = `audio/${f}`; }
+  for (const [i, [speaker, text, stage]] of current.lines.entries()) {
     if (signal.cancelled) break;
     const div = addLine(speaker, text);
     const words = text.split(/\s+/);
-    const dur = lineSeconds(text) * 1000;
-    const speech = voice ? speak(text, speaker, signal) : null;
+    let dur = lineSeconds(text) * 1000;
+    let speech = null;
+    if (recorded) {
+      let gotDuration;
+      const known = new Promise((r) => { gotDuration = r; });
+      speech = playRecording(`audio/${recorded[i]}`, speaker, (d) => gotDuration(d));
+      const d = await Promise.race([known, new Promise((r) => setTimeout(() => r(null), 1500))]);
+      if (d && Number.isFinite(d)) dur = d * 1000;
+    } else if (voice) speech = speak(text, speaker, signal);
     // Reveal the words as they are spoken, like live captions.
-    for (let i = 1; i <= words.length && !signal.cancelled; i++) {
-      div.querySelector(".txt").textContent = words.slice(0, i).join(" ");
+    const pace = recorded ? dur * 0.92 : voice ? dur * 0.9 : dur * 0.55;
+    for (let w = 1; w <= words.length && !signal.cancelled; w++) {
+      div.querySelector(".txt").textContent = words.slice(0, w).join(" ");
       $("lines").scrollTop = $("lines").scrollHeight;
-      await sleep((voice ? dur * 0.9 : dur * 0.55) / words.length, signal);
+      await sleep(pace / words.length, signal);
     }
     if (speech) await speech;
     if (signal.cancelled) break;
     scoreInto(div, speaker, text, stage);
-    elapsed += lineSeconds(text);
+    elapsed += recorded ? dur / 1000 + 0.3 : lineSeconds(text);
     setTimer(elapsed);
-    await sleep(voice ? 250 : 350, signal);
+    await sleep(recorded ? 300 : voice ? 250 : 350, signal);
   }
   if (!signal.cancelled) {
     $("callsub").textContent = current.label === "scam" ? "Sample scam call ended" : "Sample genuine call ended";
@@ -226,6 +303,7 @@ function stopAll() {
   if (playing) playing.cancel();
   playing = null;
   if ("speechSynthesis" in window) speechSynthesis.cancel();
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
   stopMic();
   setPlayButton(false);
 }

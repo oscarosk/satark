@@ -192,6 +192,24 @@ footer p { max-width: 72ch; }
   .wrap { padding: 0 16px; }
   .verdict.alert .v-title { font-size: 26px; }
 }
+
+/* Phone status bar: keeps the verdict visible while the transcript plays */
+.mstatus { display: none; }
+@media (max-width: 860px) {
+  .mstatus.on {
+    display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 10;
+    align-items: center; gap: 10px; padding: 12px 14px 11px; border-radius: 14px;
+    background: var(--surface); color: var(--text); border: 1px solid var(--rule);
+    box-shadow: 0 6px 24px rgba(20, 24, 60, .18); font-weight: 600; font-size: 16px;
+  }
+  .mstatus.on.hidden { display: none; }
+  .mstatus .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--safe); flex: none; }
+  .mstatus.watch { background: var(--watch-soft); border-color: transparent; }
+  .mstatus.watch .dot { background: var(--watch); }
+  .mstatus.alert { background: var(--alert-strong); color: #fff; border-color: transparent; }
+  .mstatus.alert .dot { background: #fff; }
+  .mstatus a { margin-left: auto; font-size: 14px; white-space: nowrap; }
+}
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
@@ -217,7 +235,7 @@ footer p { max-width: 72ch; }
     <div class="actions">
       <button class="btn" id="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span>Play this call</span></button>
       <button class="btn ghost" id="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg><span>Use microphone</span></button>
-      <label class="btn ghost" style="cursor:pointer"><input type="checkbox" id="voice" style="margin:0"> Read aloud</label>
+      <label class="btn ghost" style="cursor:pointer"><input type="checkbox" id="voice" style="margin:0"> <span id="voicelabel">Read aloud</span></label>
     </div>
   </div>
 
@@ -311,10 +329,11 @@ footer p { max-width: 72ch; }
 
 <footer>
   <div class="wrap">
-    <p>Satark is a prototype built for INNOVEX 2026, problem statement PS05, AI-powered cybersecurity. Sample calls are written for this demo; names and numbers in them are made up. In microphone mode your browser's speech recognition turns audio into text, which in Chrome may use Google's servers. The scam detection itself always runs on your device.</p>
+    <p>Satark is a prototype built for INNOVEX 2026, problem statement PS05, AI-powered cybersecurity. Sample calls are written for this demo; names and numbers in them are made up. In microphone mode your browser's speech recognition turns audio into text, which in Chrome may use Google's servers. The scam detection itself always runs on your device.<span id="voicecredit"></span></p>
   </div>
 </footer>
 
+<div class="mstatus" id="mstatus" aria-hidden="true"><span class="dot"></span><span id="mstext">Listening</span><a href="#verdict">See why</a></div>
 <script type="module" src="./app.js"></script>
 </body>
 </html>
