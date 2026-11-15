@@ -4,7 +4,9 @@
 
 Satark follows a phone call line by line in Hindi, Hinglish or English, recognises the script that fake CBI, police and customs officers use, and tells you to hang up, a median of 14 seconds before the caller asks for money. Detection runs entirely on your device.
 
-**[Open the live demo](LIVE_DEMO_URL)** · No sign-up, no API key. Press *Play this call*, or type what a caller says.
+**[Open the live demo](https://satark-alpha.vercel.app)** · No sign-up, no API key. Press *Play this call*, or type what a caller says.
+
+**[Watch the 2-minute demo video](https://youtu.be/8Jl0ML_22vs)**
 
 *Satark* (सतर्क) is Hindi for alert. It is an INNOVEX 2026 entry for **PS05, AI-Powered Cybersecurity**.
 
