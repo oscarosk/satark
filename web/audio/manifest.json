@@ -1,0 +1,49 @@
+{
+  "sample-cbi": [
+    "sample-cbi/01.mp3",
+    "sample-cbi/02.mp3",
+    "sample-cbi/03.mp3",
+    "sample-cbi/04.mp3",
+    "sample-cbi/05.mp3",
+    "sample-cbi/06.mp3",
+    "sample-cbi/07.mp3",
+    "sample-cbi/08.mp3",
+    "sample-cbi/09.mp3",
+    "sample-cbi/10.mp3",
+    "sample-cbi/11.mp3"
+  ],
+  "sample-customs": [
+    "sample-customs/01.mp3",
+    "sample-customs/02.mp3",
+    "sample-customs/03.mp3",
+    "sample-customs/04.mp3",
+    "sample-customs/05.mp3",
+    "sample-customs/06.mp3",
+    "sample-customs/07.mp3",
+    "sample-customs/08.mp3"
+  ],
+  "sample-trai": [
+    "sample-trai/01.mp3",
+    "sample-trai/02.mp3",
+    "sample-trai/03.mp3",
+    "sample-trai/04.mp3",
+    "sample-trai/05.mp3",
+    "sample-trai/06.mp3",
+    "sample-trai/07.mp3"
+  ],
+  "sample-bank": [
+    "sample-bank/01.mp3",
+    "sample-bank/02.mp3",
+    "sample-bank/03.mp3",
+    "sample-bank/04.mp3",
+    "sample-bank/05.mp3",
+    "sample-bank/06.mp3"
+  ],
+  "sample-delivery": [
+    "sample-delivery/01.mp3",
+    "sample-delivery/02.mp3",
+    "sample-delivery/03.mp3",
+    "sample-delivery/04.mp3",
+    "sample-delivery/05.mp3"
+  ]
+}
